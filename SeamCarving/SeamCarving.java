@@ -9,7 +9,6 @@ public class SeamCarving {
 
     public static void ForwardEnergy(BufferedImage img, int x, int y){
         img.getRGB(x, y);
-        return;
     }
     public static void main(String[] args) throws IOException{
         System.out.println(args[0]);
