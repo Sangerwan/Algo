@@ -7,7 +7,7 @@ import java.io.IOException;
 public class SeamCarving {
 
 
-    public static int ForwardEnergy(BufferedImage img, int x, int y){
+    public static void ForwardEnergy(BufferedImage img, int x, int y){
         img.getRGB(x, y);
     }
     public static void main(String[] args) throws IOException{
