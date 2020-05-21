@@ -7,6 +7,7 @@ import java.io.IOException;
 public class SeamCarving {
 
     static public void write_Img(BufferedImage img){
+        //save image in saved.png
         try{
         File outputfile = new File("saved.png");
         ImageIO.write(img, "png", outputfile);
