@@ -8,7 +8,6 @@ public class SeamCarving {
 
     static public void write_Img(BufferedImage img){
         try{
-        
         File outputfile = new File("saved.png");
         ImageIO.write(img, "png", outputfile);
         }
@@ -57,25 +56,25 @@ public class SeamCarving {
             int[][] M_vertical_seam=findLowestEnergyVerticalSeam(updated_img);
             int[][] M_horizontal_seam=findLowestEnergyHorizontalSeam(updated_img);
             if(M_vertical_seam[updated_img.getWidth()][updated_img.getHeight()]<=M_horizontal_seam[updated_img.getWidth()][updated_img.getHeight()]){
-                removeVerticalSeam(updated_img,M_vertical_seam);
+                updated_img=removeVerticalSeam(updated_img,M_vertical_seam);
                 nb_column-=1;
             }
             else{
-                 removeHorizontalSeam(updated_img,M_horizontal_seam);
+                updated_img=removeHorizontalSeam(updated_img,M_horizontal_seam);
                  nb_row-=1;
             }
         }
         if(nb_column==0){
             while(nb_row!=0){
                 int[][] M_horizontal_seam=findLowestEnergyHorizontalSeam(updated_img);
-                removeHorizontalSeam(updated_img,M_horizontal_seam);
+                updated_img=removeHorizontalSeam(updated_img,M_horizontal_seam);
                 nb_row-=1;
             }
         }
         else if(nb_row==0)[
             while(nb_column!=0){
                 int[][] M_vertical_seam=findLowestEnergyVerticalSeam(updated_img);
-                removeVerticalSeam(updated_img,M_vertical_seam);
+                updated_img=removeVerticalSeam(updated_img,M_vertical_seam);
                 nb_column-=1;
             }
         ]
