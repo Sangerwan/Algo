@@ -60,6 +60,7 @@ public class SeamCarving {
                 nb_column-=1;
             }
             else{
+                //lul
                 updated_img=removeHorizontalSeam(updated_img,M_horizontal_seam);
                  nb_row-=1;
             }
