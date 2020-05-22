@@ -7,9 +7,10 @@ public class SeamCarving {
         System.out.println(args[0]);
         ImageProcessing img =new ImageProcessing(args[0]);
         img.display_Img();
-        System.out.println(img.getRed(1,0));
-        System.out.println(img.getGreen(1,0));
-        System.out.println(img.getBlue(1,0));
+
+        int[] M=new int[img.getWidth()];
+        System.out.println(M.length);
+        System.out.println(img.getWidth());
         int new_x=getInt(args[1]);
         int new_y=getInt(args[2]);
         // // //resize
@@ -53,17 +54,10 @@ public class SeamCarving {
         return null;
     }
 
-<<<<<<< HEAD
-    public static void ForwardEnergy(BufferedImage img, int x, int y){
-        img.getRGB(x, y);
-=======
     private static int[] findLowestEnergyVerticalSeam(ImageProcessing img, int[][] m_vertical_seam) {
         return null;
     }
 
-    
-
-    
 	private static int verticalCostR(int x, int y, ImageProcessing img) {
         int r1=img.getRed(x,y-1);
         int g1=img.getGreen(x,y-1);
@@ -92,7 +86,6 @@ public class SeamCarving {
         int I1=(int) Math.pow(r1-r2,2) +(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
         int I2=(int) Math.pow(r3-r2,2) +(int) Math.pow(g3-g2,2)+(int) Math.pow(b3-b2,2);
         return I1+I2;
->>>>>>> f03b7a5566db54e2456140212db31eff5b02287b
     }
 
     private static int verticalCostU(int x, int y, ImageProcessing img) {
@@ -106,7 +99,7 @@ public class SeamCarving {
         return I;
     }
     
-    }
+    
     private static int[][] computeVerticalSeam(ImageProcessing img) {
         int X=img.getWidth();
         int Y=img.getHeight();
@@ -126,12 +119,12 @@ public class SeamCarving {
     private static int[][] computeHorizontalSeam(ImageProcessing img) {
         int X=img.getWidth();
         int Y=img.getHeight();
-        int[][] M=new int[X-1][Y-1];
+        int[][] M=new int[X][Y];
         //x=0
         for(int y=0;y<Y;y++)
             M[0][y]=horizontalCostL(0,y,img);
         for(int x=1;x<X-1;x++){
-            M[x][0]=Math.min(M[x-1][0]+horizontalCostL(x, 0, img),M[x-1][0+1]+horizontalCostD(x, 0, img));
+            M[x][0]=Math.min(M[x-1][0]+horizontalCostL(x,0,img),M[x-1][0+1]+horizontalCostD(x,0,img));
             for(int y=1;y<Y-1;y++)
                 M[x][y]=Math.min(M[x-1][y-1]+horizontalCostU(x,y,img),Math.min(M[x-1][y]+horizontalCostL(x,y,img),M[x-1][y+1]+horizontalCostD(x,y,img)));
             M[x][Y-1]=Math.min(M[x-1][Y-1-1]+horizontalCostU(x,Y-1,img),M[x-1][Y-1]+horizontalCostL(x,Y-1,img));
@@ -140,15 +133,44 @@ public class SeamCarving {
     }
     
     private static int horizontalCostD(int x, int y, ImageProcessing img) {
-        return 0;
+        int r1=img.getRed(x+1,y);
+        int g1=img.getGreen(x+1,y);
+        int b1=img.getBlue(x+1,y);
+        int r2=img.getRed(x+1,y-1);
+        int g2=img.getGreen(x+1,y-1);
+        int b2=img.getBlue(x+1,y-1);
+        int r3=img.getRed(x-1,y);
+        int g3=img.getGreen(x-1,y);
+        int b3=img.getBlue(x-1,y);
+        int I1=(int) Math.pow(r1-r2,2) +(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
+        int I2=(int) Math.pow(r1-r3,2) +(int) Math.pow(g1-g3,2)+(int) Math.pow(b1-b3,2);       
+        return I1+I2;
     }
 
     private static int horizontalCostU(int x, int y, ImageProcessing img) {
-        return 0;
+        int r1=img.getRed(x-1,y);
+        int g1=img.getGreen(x-1,y);
+        int b1=img.getBlue(x-1,y);
+        int r2=img.getRed(x,y-1);
+        int g2=img.getGreen(x,y-1);
+        int b2=img.getBlue(x,y-1);
+        int r3=img.getRed(x+1,y);
+        int g3=img.getGreen(x+1,y);
+        int b3=img.getBlue(x+1,y);
+        int I1=(int) Math.pow(r1-r2,2) +(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
+        int I2=(int) Math.pow(r3-r1,2) +(int) Math.pow(g3-g1,2)+(int) Math.pow(b3-b1,2);
+        return I1+I2;
     }
 
-    private static int horizontalCostL(int i, int y, ImageProcessing img) {
-        return 0;
+    private static int horizontalCostL(int x, int y, ImageProcessing img) {
+        int r1=img.getRed(x+1,y);
+        int g1=img.getGreen(x+1,y);
+        int b1=img.getBlue(x+1,y);
+        int r2=img.getRed(x-1,y);
+        int g2=img.getGreen(x-1,y);
+        int b2=img.getBlue(x-1,y);
+        int I=(int) Math.pow(r1-r2,2)+(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
+        return I;
     }
 
     public static int getInt(String string) {
