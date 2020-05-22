@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Coccinelle",
+            "request": "launch",
+            "mainClass": "Coccinelle",
+            "projectName": "Algo_774cb629"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"

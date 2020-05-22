@@ -1,119 +1,151 @@
-import java.awt.image.BufferedImage;
-import javax.imageio.*;
-import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
 
 public class SeamCarving {
 
-    static public void write_Img(BufferedImage img){
-        //save image in saved.png
-        try{
-        File outputfile = new File("saved.png");
-        ImageIO.write(img, "png", outputfile);
-        }
-        catch(Exception e){
-            System.out.println(e);
-        }
-    }
-    static public BufferedImage load_Img(String path){
-        BufferedImage img = null;
-        try {
-            File file = new File(path);
-            img = ImageIO.read(file);
-        }
-        catch (Exception e) {
-            System.out.println(e);
-        }
-        return img;
-    }
-    static public void display_Img(BufferedImage img){
-        JFrame frame= new JFrame("test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        JPanel panel=new JPanel();
-        JLabel label=new JLabel(new ImageIcon(img));
-        panel.add(label);
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-    }
-    
-    public static void ForwardEnergy(BufferedImage img, int x, int y){
-        img.getRGB(x, y);
-        return;
-    }
-    public static void main(String[] args) throws IOException{// args[0]: nom_de_l'image 
+    public static void main(String[] args){// args[0]: nom_de_l'image 
                                                             //args[1]: % de reduction en x 
                                                             //args[2]: % de reduction en y 
         System.out.println(args[0]);
-        BufferedImage img =load_Img(args[0]);
+        ImageProcessing img =new ImageProcessing(args[0]);
+        img.display_Img();
+        System.out.println(img.getRed(1,0));
+        System.out.println(img.getGreen(1,0));
+        System.out.println(img.getBlue(1,0));
         int new_x=getInt(args[1]);
         int new_y=getInt(args[2]);
-        //resize
+        // // //resize
         int nb_column=img.getWidth()-img.getWidth()*new_x/100;
-        int nb_row=img.getHeight()-img.getHeight()*new_y/100;
-        BufferedImage updated_img=img;
+        int nb_row=img.getHeight() - img.getHeight() * new_y / 100;
+        System.out.println(img.getRGB(0, 0));
+        img.setRGB(0, 0,img.getRGB(0, 0));
+        System.out.println(img.getRGB(0, 0));
         while(nb_column!=0 || nb_row!=0){
-            int[][] M_vertical_seam=findLowestEnergyVerticalSeam(updated_img);
-            int[][] M_horizontal_seam=findLowestEnergyHorizontalSeam(updated_img);
-            if(M_vertical_seam[updated_img.getWidth()][updated_img.getHeight()]<=M_horizontal_seam[updated_img.getWidth()][updated_img.getHeight()]){
-                updated_img=removeVerticalSeam(updated_img,M_vertical_seam);
+            int[][] M_vertical_seam=computeVerticalSeam(img);
+            int[][] M_horizontal_seam=computeHorizontalSeam(img);
+            if(M_vertical_seam[img.getWidth()][img.getHeight()]<=M_horizontal_seam[img.getWidth()][img.getHeight()]){
+                int[] vertical_seam=findLowestEnergyVerticalSeam(img,M_vertical_seam);
+                img.removeVerticalSeam(vertical_seam);
                 nb_column-=1;
             }
             else{
-                updated_img=removeHorizontalSeam(updated_img,M_horizontal_seam);
-                 nb_row-=1;
+                int[] horizontal_seam=findLowestEnergyHorizontalSeam(img,M_horizontal_seam);
+                img.removeHorizontalSeam(horizontal_seam);
+                nb_row-=1;
             }
         }
         if(nb_column==0){
             while(nb_row!=0){
-                int[][] M_horizontal_seam=findLowestEnergyHorizontalSeam(updated_img);
-                updated_img=removeHorizontalSeam(updated_img,M_horizontal_seam);
+                int[][] M_horizontal_seam=computeHorizontalSeam(img);
+                int[] horizontal_seam=findLowestEnergyHorizontalSeam(img,M_horizontal_seam);
+                img.removeHorizontalSeam(horizontal_seam);
                 nb_row-=1;
             }
         }
-        else if(nb_row==0)[
+        else if(nb_row==0){
             while(nb_column!=0){
-                int[][] M_vertical_seam=findLowestEnergyVerticalSeam(updated_img);
-                updated_img=removeVerticalSeam(updated_img,M_vertical_seam);
+                int[][] M_vertical_seam=computeVerticalSeam(img);
+                int[] vertical_seam=findLowestEnergyVerticalSeam(img,M_vertical_seam);
+                img.removeVerticalSeam(vertical_seam);
                 nb_column-=1;
             }
-        ]
-        //display_Img(img);
-        write_Img(img);
-        // img.setRGB(1, 0, 255);
-        // System.out.println(img.getRGB(0,0));
-        // System.out.println(img.getRGB(1,0));
-        // System.out.println(img.getRGB(2,0));
-        //Initialisation
-        //Calcul de l'energie de la première ligne MX(x,0)=E(x,0)
-        //Calcul de l'energie de la première colonne MY(0,y)=E(0,y)
-        //enlever le plus faible
-        //calcul energie diff
+        }
+    }
+    private static int[] findLowestEnergyHorizontalSeam(ImageProcessing img, int[][] m_horizontal_seam) {
+        return null;
+    }
 
-        // for(int i=0; i<img.getWidth();i++){
-        //     if(i==0){
-        //         Ex[i]=(int) Math.pow((img.getRGB(i,0)-img.getRGB(i+1,0)),2);
-        //     }
-        //     else if(i==img.getWidth()-1){
-        //         Ex[i]=(int) Math.pow((img.getRGB(i,0)-img.getRGB(i-1,0)),2);
-        //     }
-        //     else Ex[i]=(int) Math.pow((img.getRGB(i-1,0)-img.getRGB(i+1,0)),2);
-        // } 
-        // for(int j=0; j<img.getHeight();j++){
-        //     if(j==0){
-        //         Ey[j]=(int) Math.pow((img.getRGB(0,j)-img.getRGB(0,j+1)),2);
-        //     }
-        //     else if(j==img.getHeight()-1){
-        //         Ey[j]=(int) Math.pow((img.getRGB(0,j)-img.getRGB(0,j-1)),2);
-        //     }
-        //     else Ey[j]=(int) Math.pow((img.getRGB(0,j-1)-img.getRGB(0,j+1)),2);
-        // } 
-        
-        
-        System.out.println("1");
+    private static int[] findLowestEnergyVerticalSeam(ImageProcessing img, int[][] m_vertical_seam) {
+        return null;
+    }
+
+    
+
+    
+	private static int verticalCostR(int x, int y, ImageProcessing img) {
+        int r1=img.getRed(x,y-1);
+        int g1=img.getGreen(x,y-1);
+        int b1=img.getBlue(x,y-1);
+        int r2=img.getRed(x+1,y);
+        int g2=img.getGreen(x+1,y);
+        int b2=img.getBlue(x+1,y);
+        int r3=img.getRed(x-1,y);
+        int g3=img.getGreen(x-1,y);
+        int b3=img.getBlue(x-1,y);
+        int I1=(int) Math.pow(r2-r3,2) +(int) Math.pow(g2-g3,2)+(int) Math.pow(b2-b3,2);
+        int I2=(int) Math.pow(r1-r2,2) +(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
+        return I1+I2;
+    }
+
+    private static int verticalCostL(int x, int y, ImageProcessing img) {
+        int r1=img.getRed(x+1,y);
+        int g1=img.getGreen(x+1,y);
+        int b1=img.getBlue(x+1,y);
+        int r2=img.getRed(x-1,y);
+        int g2=img.getGreen(x-1,y);
+        int b2=img.getBlue(x-1,y);
+        int r3=img.getRed(x,y-1);
+        int g3=img.getGreen(x,y-1);
+        int b3=img.getBlue(x,y-1);
+        int I1=(int) Math.pow(r1-r2,2) +(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
+        int I2=(int) Math.pow(r3-r2,2) +(int) Math.pow(g3-g2,2)+(int) Math.pow(b3-b2,2);
+        return I1+I2;
+    }
+
+    private static int verticalCostU(int x, int y, ImageProcessing img) {
+        int r1=img.getRed(x+1,y);
+        int g1=img.getGreen(x+1,y);
+        int b1=img.getBlue(x+1,y);
+        int r2=img.getRed(x-1,y);
+        int g2=img.getGreen(x-1,y);
+        int b2=img.getBlue(x-1,y);
+        int I=(int) Math.pow(r1-r2,2)+(int) Math.pow(g1-g2,2)+(int) Math.pow(b1-b2,2);
+        return I;
     }
     
+    }
+    private static int[][] computeVerticalSeam(ImageProcessing img) {
+        int X=img.getWidth();
+        int Y=img.getHeight();
+        int[][] M=new int[X][Y];
+        //y=0
+        for(int x=0;x<X;x++)
+            M[x][0]=verticalCostU(x,0,img);
+        //y[1:Y]
+        for(int y=1;y<Y-1;y++){// /!\ border
+            M[0][y]=Math.min(M[0][y-1]+verticalCostU(0,y,img),M[0+1][y-1]+verticalCostR(0,y,img));
+            for(int x=1;x<X-1;x++)
+                M[x][y]=Math.min(M[x-1][y-1]+verticalCostL(x,y,img),Math.min(M[x][y-1]+verticalCostU(x,y,img),M[x+1][y-1]+verticalCostR(x,y,img)));
+            M[X-1][y]=Math.min(M[X-1][y-1]+verticalCostL(X-1,y,img),M[X][y-1]+verticalCostU(X-1,y,img));
+        }
+        return M;
+    }
+    private static int[][] computeHorizontalSeam(ImageProcessing img) {
+        int X=img.getWidth();
+        int Y=img.getHeight();
+        int[][] M=new int[X-1][Y-1];
+        //x=0
+        for(int y=0;y<Y;y++)
+            M[0][y]=horizontalCostL(0,y,img);
+        for(int x=1;x<X-1;x++){
+            M[x][0]=Math.min(M[x-1][0]+horizontalCostL(x, 0, img),M[x-1][0+1]+horizontalCostD(x, 0, img));
+            for(int y=1;y<Y-1;y++)
+                M[x][y]=Math.min(M[x-1][y-1]+horizontalCostU(x,y,img),Math.min(M[x-1][y]+horizontalCostL(x,y,img),M[x-1][y+1]+horizontalCostD(x,y,img)));
+            M[x][Y-1]=Math.min(M[x-1][Y-1-1]+horizontalCostU(x,Y-1,img),M[x-1][Y-1]+horizontalCostL(x,Y-1,img));
+        }
+        return M;
+    }
+    
+    private static int horizontalCostD(int x, int y, ImageProcessing img) {
+        return 0;
+    }
+
+    private static int horizontalCostU(int x, int y, ImageProcessing img) {
+        return 0;
+    }
+
+    private static int horizontalCostL(int i, int y, ImageProcessing img) {
+        return 0;
+    }
+
     public static int getInt(String string) {
         int get_number;
         try{
@@ -126,39 +158,6 @@ public class SeamCarving {
         return get_number;
     }
 
-    public static int calculerE(int x, int y, BufferedImage img) {
-        switch(x){
-            case 0: 
-                if(y==0)
-                if(y==img.getHeight())
-                return (int) Math.pow((img.getRGB(x,y)-img.getRGB(x+1,y)),2);
-        }
-        // for(int x=0; x<img.getWidth();x++){
-        //     if(x==0){
-        //         Ex[i]=(int) Math.pow((img.getRGB(i,0)-img.getRGB(i+1,0)),2);
-        //     }
-        //     else if(i==img.getWidth()-1){
-        //         Ex[i]=(int) Math.pow((img.getRGB(i,0)-img.getRGB(i-1,0)),2);
-        //     }
-        //     else Ex[i]=(int) Math.pow((img.getRGB(i-1,0)-img.getRGB(i+1,0)),2);
-        // } 
-        // for(int j=0; j<img.getHeight();j++){
-        //     if(j==0){
-        //         Ey[j]=(int) Math.pow((img.getRGB(0,j)-img.getRGB(0,j+1)),2);
-        //     }
-        //     else if(j==img.getHeight()-1){
-        //         Ey[j]=(int) Math.pow((img.getRGB(0,j)-img.getRGB(0,j-1)),2);
-        //     }
-        //     else Ey[j]=(int) Math.pow((img.getRGB(0,j-1)-img.getRGB(0,j+1)),2);
-        // } 
-    }
-
-    public static int[][] calculerMx(BufferedImage img){
-        int[][] Mx = new int[img.getWidth()][img.getHeight()];
-        for(int x=0; x<img.getWidth();x++) M[x][0]=calculerE(x,0, img);
-        for(int y=0; y<img.getHeight();y++) M[0][y]=calculerE(0,y, img);
-
-        return Mx;
-    }
+    
 
 }

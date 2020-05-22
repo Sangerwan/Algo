@@ -7,7 +7,7 @@ public class Coccinelle {
                             {46,2,8,7,15},
                             {89,27,10,12,3},
                             {1,72,3,6,6},
-                            {3,1,2,4,5}};
+                            {3,1,2,4,500000}};
 
     static int L= V.length;                     //Nombres de lignes du tableau
     static int C= V[0].length;                  //Nombres de colones du tableau
@@ -39,7 +39,6 @@ public class Coccinelle {
         }
         return Max;
     }
-    
     static void afficherMatrice(int[][] G){//Affiche une matrice 2D
         for(int i=G.length-1;i>=0;i--){
             for(int j=0;j<G[0].length;j++)
