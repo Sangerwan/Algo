@@ -39,7 +39,6 @@ public class Coccinelle {
         }
         return Max;
     }
-    
     static void afficherMatrice(int[][] G){//Affiche une matrice 2D
         for(int i=G.length-1;i>=0;i--){
             for(int j=0;j<G[0].length;j++)
