@@ -6,20 +6,17 @@ public class SeamCarving {
                                                             //args[2]: % de reduction en y 
         System.out.println(args[0]);
         img=new ImageProcessing(args[0]);
-        img.display_Img();
-
-        int[] M=new int[img.getWidth()];
-        System.out.println(M.length);
-        System.out.println(img.getWidth());
+        //img.display_Img();
         int new_x=getInt(args[1]);
         int new_y=getInt(args[2]);
         // // //resize
-        int nb_column=img.getWidth()-img.getWidth()*new_x/100;
-        int nb_row=img.getHeight() - img.getHeight() * new_y / 100;
-        System.out.println(img.getRGB(0, 0));
-        img.setRGB(0, 0,img.getRGB(0, 0));
-        System.out.println(img.getRGB(0, 0));
-        while(nb_column!=0 || nb_row!=0){
+        int nb_column=img.getWidth()*new_x/100;
+        //int nb_column=0;
+        int nb_row=img.getHeight() * new_y / 100;
+        System.out.println(nb_column);
+        System.out.println(nb_row);
+        
+        while(nb_column!=0 && nb_row!=0){
             int[][] M_vertical_seam=computeVerticalSeam();
             int[][] M_horizontal_seam=computeHorizontalSeam();
             if(minLastLine(M_vertical_seam)<=minLastColumn(M_horizontal_seam)){
@@ -50,6 +47,8 @@ public class SeamCarving {
             }
         }
         img.write_Img();
+        System.out.println("done");
+        return;
     }
     // VERTICAL 
     private static int[] findLowestEnergyVerticalSeam(int[][] m_vertical_seam) {
@@ -104,25 +103,49 @@ public class SeamCarving {
         if(pos_ymin==0) 
             Mu=Integer.MAX_VALUE;
         else 
-            Mu=m_horizontal_seam[pos_ymin-1][column-1]+verticalCostL(pos_ymin,column);
-        Ml=m_horizontal_seam[pos_ymin][column-1]+verticalCostU(pos_ymin,column);
+            Mu=m_horizontal_seam[pos_ymin-1][column-1]+verticalCostL(column,pos_ymin);
+        Ml=m_horizontal_seam[pos_ymin][column-1]+verticalCostU(column,pos_ymin);
         if(m_horizontal_seam[pos_ymin][column]==Ml)
-            return merge( flevs(m_horizontal_seam,column-1,pos_ymin) , new int[] {pos_ymin} );
+            return merge( flehs(m_horizontal_seam,column-1,pos_ymin) , new int[] {pos_ymin} );
         else if(m_horizontal_seam[pos_ymin][column]==Mu)
-            return merge( flevs(m_horizontal_seam,column-1,pos_ymin-1) , new int[] {pos_ymin});
+            return merge( flehs(m_horizontal_seam,column-1,pos_ymin-1) , new int[] {pos_ymin});
         else //else if(m_vertical_seam[x_min][y]==Mr)
-            return merge( flevs(m_horizontal_seam,column-1,pos_ymin+1) , new int[] {pos_ymin});
+            return merge( flehs(m_horizontal_seam,column-1,pos_ymin+1) , new int[] {pos_ymin});
     }
 
     private static int verticalCostR(int x, int y) {
+        if(x==0)
+            return 1000000;
+        if(x==img.getWidth()-1)
+            return 1000000;
+        if(y==0)
+            return 1000000;
+        if(y==img.getHeight()-1)
+            return 1000000;
         return dEnergy(x+1, y, x-1, y)+dEnergy(x, y-1, x+1, y);
     }
 
     private static int verticalCostL(int x, int y) {
+        if(x==0)
+            return 1000000;
+        if(x==img.getWidth()-1)
+            return 1000000;
+        if(y==0)
+            return 1000000;
+        if(y==img.getHeight()-1)
+            return 1000000;
         return dEnergy(x+1, y, x-1, y)+dEnergy(x, y-1, x-1, y);
     }
 
     private static int verticalCostU(int x, int y) {
+        if(x==0)
+            return 1000000;
+        if(x==img.getWidth()-1)
+            return 1000000;
+        if(y==0)
+            return 1000000;
+        if(y==img.getHeight()-1)
+            return 1000000;
         return dEnergy(x+1, y, x-1, y);
     }
     
@@ -148,10 +171,10 @@ public class SeamCarving {
         }
         return M;
     }
-
+    //pb
     private static int[][] computeHorizontalSeam() {
-        int L=img.getWidth();
-        int C=img.getHeight();
+        int L=img.getHeight();
+        int C=img.getWidth();
         int[][] M=new int[L][C];
         //x=0
         for(int y=0;y<L;y++)
@@ -166,14 +189,38 @@ public class SeamCarving {
     }
     
     private static int horizontalCostD(int x, int y) {
+        if(x==0)
+            return 1000000;
+        if(x==img.getWidth()-1)
+            return 1000000;
+        if(y==0)
+            return 1000000;
+        if(y==img.getHeight()-1)
+            return 1000000;
         return dEnergy(x+1, y, x, y-1)+dEnergy(x+1, y, x-1, y);
     }
 
     private static int horizontalCostU(int x, int y) {
+        if(x==0)
+            return 1000000;
+        if(x==img.getWidth()-1)
+            return 1000000;
+        if(y==0)
+            return 1000000;
+        if(y==img.getHeight()-1)
+            return 1000000;
         return dEnergy(x-1, y, x, y-1)+dEnergy(x+1, y, x-1, y);
     }
 
     private static int horizontalCostL(int x, int y) {
+        if(x==0)
+            return 1000000;
+        if(x==img.getWidth()-1)
+            return 1000000;
+        if(y==0)
+            return 1000000;
+        if(y==img.getHeight()-1)
+            return 1000000;
         return dEnergy(x+1, y, x-1, y);
     }
     private static int dEnergy(int x1,int y1,int x2,int y2){
