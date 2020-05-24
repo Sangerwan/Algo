@@ -60,11 +60,27 @@ public class ImageProcessing {
         img.setRGB(x, y, rgb);
     }
 	public void removeVerticalSeam(int[] vertical_seam) {
-        BufferedImage updated_img=new BufferedImage(img.getWidth()-1, img.getHeight(),BufferedImage.TYPE_INT_ARGB);
+        int width=img.getWidth();
+        int height=img.getHeight();
+        BufferedImage updated_img=new BufferedImage(width-1,height,img.getType());
+        for(int i=0;i<vertical_seam.length;i++){
+            for(int l1=0;l1<vertical_seam[i];l1++)  
+                updated_img.setRGB(l1, i, img.getRGB(l1, i));
+            for(int l2=vertical_seam[i]+1;l2<width;l2++) 
+                updated_img.setRGB(l2-1, i, img.getRGB(l2, i));
+        }
         img=updated_img;
 	}
 	public void removeHorizontalSeam(int[] horizontal_seam) {
-        BufferedImage updated_img=new BufferedImage(img.getWidth(), img.getHeight()-1,BufferedImage.TYPE_INT_ARGB);
+        int width=img.getWidth();
+        int height=img.getHeight();
+        BufferedImage updated_img=new BufferedImage(width,height-1,img.getType());
+        for(int i=0;i<horizontal_seam.length;i++){
+            for(int c1=0;c1<horizontal_seam[i];c1++)  
+                updated_img.setRGB(i,c1, img.getRGB(i,c1));
+            for(int c2=horizontal_seam[i]+1;c2<width;c2++) 
+                updated_img.setRGB(i,c2-1, img.getRGB(i,c2));
+        }
         img=updated_img;
 	}
 }
