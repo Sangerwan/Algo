@@ -6,6 +6,36 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Debug (Launch)",
+            "request": "launch",
+            "mainClass": "SeamCarvingHV",
+            "args": "./SeamCarving/4.jpg 20 20"
+        },
+
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - SeamCarvingVH",
+            "request": "launch",
+            "mainClass": "SeamCarvingVH",
+            "projectName": "Algo_c4fa4dc1",
+            "args": "./SeamCarving/4.jpg 20 20"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Coccinelle",
+            "request": "launch",
+            "mainClass": "Coccinelle",
+            "projectName": "Algo_c4fa4dc1"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Coccinelle",
+            "request": "launch",
+            "mainClass": "Coccinelle.Coccinelle",
+            "projectName": "Algo_c4fa4dc1"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -16,7 +46,7 @@
             "request": "launch",
             "mainClass": "SeamCarving",
             "projectName": "Algo_c4fa4dc1",
-            "args": "./SeamCarving/0.png 20 20"
+            "args": "./SeamCarving/3.jpg 20 20"
         },
         {
             "type": "java",
