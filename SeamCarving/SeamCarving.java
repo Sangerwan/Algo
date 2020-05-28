@@ -1,5 +1,8 @@
 
 public class SeamCarving {
+    /*
+    Implémentaion de l'algorithme SeamCarving with forward energy
+    */
     private static ImageProcessing img;
     public static void main(String[] args){//args[0]: nom_de_l'image 
                                            //args[1]: % de reduction en x 
@@ -20,8 +23,9 @@ public class SeamCarving {
             */
             int[][] M_vertical_seam=computeVerticalSeam();
             int[][] M_horizontal_seam=computeHorizontalSeam();
-            if(minLastLine(M_vertical_seam)<=minLastColumn(M_horizontal_seam)){//on prend l'energie cumulée minimum entre les 2 matrices
-            int[] vertical_seam=findLowestEnergyVerticalSeam(M_vertical_seam);//Calcul de la seam verticale minimum
+            if(minLastLine(M_vertical_seam)<=minLastColumn(M_horizontal_seam)){//on retire la seam d'energie minimum 
+                                                                            //entre la verticale et la horizontale
+                int[] vertical_seam=findLowestEnergyVerticalSeam(M_vertical_seam);//Calcul de la seam verticale minimum
                 img.removeVerticalSeam(vertical_seam);//on enleve la seam verticale min de l'image
                 nb_column-=1;
             }
