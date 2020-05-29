@@ -6,32 +6,9 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Debug (Launch)",
+            "name": "CodeLens (Launch) - test",
             "request": "launch",
-            "mainClass": "SeamCarvingHV",
-            "args": "./SeamCarving/4.jpg 20 20"
-        },
-
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - SeamCarvingVH",
-            "request": "launch",
-            "mainClass": "SeamCarvingVH",
-            "projectName": "Algo_c4fa4dc1",
-            "args": "./SeamCarving/4.jpg 20 20"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - Coccinelle",
-            "request": "launch",
-            "mainClass": "Coccinelle",
-            "projectName": "Algo_c4fa4dc1"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - Coccinelle",
-            "request": "launch",
-            "mainClass": "Coccinelle.Coccinelle",
+            "mainClass": "test",
             "projectName": "Algo_c4fa4dc1"
         },
         {
@@ -42,11 +19,37 @@
         },
         {
             "type": "java",
+            "name": "Debug (Launch)-Coccinelle<Algo_c4fa4dc1>",
+            "request": "launch",
+            "mainClass": "Coccinelle.Coccinelle",
+            "projectName": "Algo_c4fa4dc1"
+        },
+        {
+            "type": "java",
             "name": "Debug (Launch)-SeamCarving<Algo_c4fa4dc1>",
             "request": "launch",
             "mainClass": "SeamCarving",
-            "projectName": "Algo_c4fa4dc1",
-            "args": "./SeamCarving/3.jpg 20 20"
+            "projectName": "Algo_c4fa4dc1"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-SeamCarvingHV<Algo_c4fa4dc1>",
+            "request": "launch",
+            "mainClass": "SeamCarvingHV",
+            "projectName": "Algo_c4fa4dc1"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-SeamCarvingVH<Algo_c4fa4dc1>",
+            "request": "launch",
+            "mainClass": "SeamCarvingVH",
+            "projectName": "Algo_c4fa4dc1"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-Juliette",
+            "request": "launch",
+            "mainClass": "Juliette"
         },
         {
             "type": "java",

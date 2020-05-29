@@ -7,6 +7,10 @@ public class SeamCarving {
     public static void main(String[] args){//args[0]: nom_de_l'image 
                                            //args[1]: % de reduction en x 
                                            //args[2]: % de reduction en y 
+        if(args.length<3){
+            System.out.println("Missing arguments, please enter: file_path (integer)percentage_width_reduction (integer)percentage_height_reduction");
+            return;
+        }
         img=new ImageProcessing(args[0]);
         int new_x=getInt(args[1]);
         int new_y=getInt(args[2]);
@@ -39,7 +43,6 @@ public class SeamCarving {
         long elapsedTime = System.nanoTime() - startTime;
         System.out.println("loop 1 "
                 + elapsedTime/1000000000 + "s");
-
         if(nb_column==0){
             while(nb_row!=0){
                 int[][] M_horizontal_seam=computeHorizontalSeam();

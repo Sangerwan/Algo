@@ -39,7 +39,7 @@ public class SeamCarvingHV {
         System.out.println("loop 2 "
                 + elapsedTime/1000000000 + "s");
         
-        img.write_Img(args[1],args[2]);
+        img.write_Img(args[1],args[2]+"_HV");
 
         long finishtime=System.nanoTime()-startTime;
         System.out.println("done in "+ finishtime/1000000000 +"s" );
